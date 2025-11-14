@@ -32,7 +32,6 @@ public class PaymentService : IPaymentService
         await _repo.AddAsync(record, ct);
         _logger.LogInformation("Payment recorded {PaymentId} for Order {OrderId}", paymentId, orderId);
 
-        // publish PaymentSucceededEvent via abstraction
         var evt = new PaymentSucceededEvent(orderId, paymentId, amount, record.ProcessedAt);
         await _publisher.PublishPaymentSucceededAsync(evt, ct);
         _logger.LogInformation("PaymentSucceededEvent published for PaymentId {PaymentId}", paymentId);
