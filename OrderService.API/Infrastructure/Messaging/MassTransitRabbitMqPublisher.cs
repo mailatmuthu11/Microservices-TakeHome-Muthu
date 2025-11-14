@@ -15,7 +15,6 @@ public class MassTransitRabbitMqPublisher : IRabbitMqPublisher
 
     public async Task PublishOrderCreatedAsync(OrderCreatedEvent orderCreated, CancellationToken ct = default)
     {
-        // add correlation or headers here if needed
         _logger.LogDebug("Publishing OrderCreatedEvent for {OrderId}", orderCreated.OrderId);
         await _publishEndpoint.Publish(orderCreated, ct);
     }

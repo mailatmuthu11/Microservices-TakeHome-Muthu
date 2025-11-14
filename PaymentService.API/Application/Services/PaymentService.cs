@@ -19,10 +19,8 @@ public class PaymentService : IPaymentService
 
     public async Task<PaymentRecord> ProcessPaymentAsync(string orderId, decimal amount, CancellationToken ct = default)
     {
-        // business rules: e.g., amount must be > 0
         if (amount <= 0) throw new ArgumentException("Amount must be positive.", nameof(amount));
 
-        // simulate payment processing time and possible failure path (kept simple)
         _logger.LogInformation("Processing payment for Order {OrderId}", orderId);
         await Task.Delay(TimeSpan.FromMilliseconds(400), ct);
 

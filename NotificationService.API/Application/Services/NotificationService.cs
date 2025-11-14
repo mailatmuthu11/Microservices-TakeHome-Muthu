@@ -24,11 +24,9 @@ public class NotificationService : INotificationService
         var id = Guid.NewGuid().ToString();
         var sentAt = DateTime.UtcNow;
         var record = new NotificationRecord(id, orderId, message, sentAt);
-
-        // persist first so we have audit; in production consider transactional/outbox patterns
+                
         await _repo.AddAsync(record, ct);
 
-        // send via abstraction
         try
         {
             await _sender.SendAsync(recipient, $"Payment succeeded for order {orderId}", message, ct);
@@ -37,7 +35,6 @@ public class NotificationService : INotificationService
         catch (Exception ex)
         {
             _logger.LogError(ex, "Failed to send notification for Order {OrderId}", orderId);
-            // Consider retry or DLQ; for now we swallow so processing continues, record remains.
         }
 
         return record;

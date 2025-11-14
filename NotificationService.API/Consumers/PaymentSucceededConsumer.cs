@@ -20,10 +20,8 @@ public class PaymentSucceededConsumer : IConsumer<PaymentSucceededEvent>
         var msg = context.Message;
         _logger.LogInformation("Received PaymentSucceededEvent for Order {OrderId} Payment {PaymentId}", msg.OrderId, msg.PaymentId);
 
-        // craft a message; in real app you'd look up customer's contact info
         var message = $"Payment {msg.PaymentId} for order {msg.OrderId} of amount {msg.Amount} completed at {msg.Timestamp:O}.";
 
-        // recipient placeholder — in a real system you'd fetch customer email from user service or included in event
         var recipient = "customer@example.com";
 
         try
